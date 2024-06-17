@@ -6,6 +6,6 @@
 <h2>5. Submit & send data through URL</h2>
 <br>
 <h3>Start practicing with this Node app</h3>
-<h3>git clone https://github.com/berlinlee-phoenix/Node-Enhancing-MVC-app.git</h3>
+<h3>git clone https://github.com/berlinlee-phoenix/Node-Dynamic-Routes-and-Advanced-Models.git</h3>
 <h3>cd Node-Enhancing-MVC-app</h3>
 <h3>npm install</h3>
