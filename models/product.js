@@ -50,6 +50,8 @@ module.exports = class Product {
   /* Default a Public Method to append products[{}]
   into rootDir/data/products.json */
   save() {
+    /* unique id for each product */
+    this.id = Math.random().toString();
     getProductsFromFile(products => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), err => {

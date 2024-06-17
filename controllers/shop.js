@@ -43,6 +43,23 @@ exports.getProducts = (req, res, next) => {
 };
 
 /* 
+Export a callback function to be used by routes/shop.js for rendering rootDir/views/product-detail.ejs template via
+http://localhost:3005/products/productUniqueId
+*/
+exports.getProductDetail = (req, res, next) => {
+  /* Extracting product Id using Server-side V8 Engine built-in req.params method 
+  We can access productId here cuz we use productId as a param inside rootDir/routes/shop.js
+  */
+  const productId = req.params.productId;
+  console.log(`req.params.productId is being parsed via http://localhost:3005/products/productUniqueId`);
+  console.log(`req.params.productId from rootDir/routes/shop.js is being console logged:`);
+  console.log(productId);
+  
+  /* After console logging productId => redirect to '/' */
+  res.status(301).redirect('/');
+};
+
+/* 
 Export a callback function to be used by routes/shop.js for 
 rendering rootDir/views/shop/index.ejs
 */

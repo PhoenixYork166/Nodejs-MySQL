@@ -13,6 +13,14 @@ router.get('/', shopController.getIndex);
 /* Registering http://localhost:3005/products Express Router route for rendering rootDir/views/shop/project-list.ejs template */
 router.get('/products', shopController.getProducts);
 
+/* More specific Express Routes must stay upper than non-specific Express Routes 
+e.g.
+router.get('/products/delete', callback);
+*/
+
+/* Registering http://localhost:3005/products/21243 Express Router route /products/randomId for rendering rootDir/views/shop/product-detail.ejs template */
+router.get('/products/:productId', shopController.getProductDetail);
+
 /* Registering http://localhost:3005/cart Express Router route */
 router.get('/cart', shopController.getCart);
 
