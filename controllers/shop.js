@@ -51,12 +51,27 @@ exports.getProductDetail = (req, res, next) => {
   We can access productId here cuz we use productId as a param inside rootDir/routes/shop.js
   */
   const productId = req.params.productId;
-  console.log(`req.params.productId is being parsed via http://localhost:3005/products/productUniqueId`);
+  console.log(`http://localhost:3005/products/productUniqueId\nreq.params.productId Express Route is up`);
   console.log(`req.params.productId from rootDir/routes/shop.js is being console logged:`);
   console.log(productId);
+  console.log(`\n`);
   
-  /* After console logging productId => redirect to '/' */
-  res.status(301).redirect('/');
+  /* Instead of just logging productId, wanna also log product{}
+  Using public static void method Product.findById() without instantiation 
+  Product.findById(productId, callbackToGetProduct)
+  */
+  Product.findById(productId, product => {
+    console.log(`product found using public static void method without class instantiation\nProduct.findById(productId, product => {...})`);
+    console.log(product);
+    console.log(`\n`);
+    /* Rendering rootDir/views/shop/product-detail.ejs view */
+    res.render('shop/product-detail', {
+      /* product = the product retrieved via public static void method Product.findById() defined in rootDir/models/product.js */
+      path: req.url ? req.url : '/products',
+      product: product,
+      pageTitle: product.title
+    });
+  });
 };
 
 /* 
@@ -111,6 +126,16 @@ exports.getCart = (req, res, next) => {
     path: req.url ? req.url : '/cart',
     pageTitle: 'Your Cart',
   })
+};
+
+/* Export a callback function to be used by routes/shop.js for accepting product attributes as req.body.fields via POST request */
+exports.postCart = (req, res, next) => {
+  /* 
+  req.body.productId cuz we declared <input type="hidden" name="productId" value="<%= product.id %>"> in rootDir/views/shop/product-detail.ejs */
+  const prodId = req.body.productId;
+  console.log(`POST request handler for http://localhost:3005/cart\nreq.body.productId:`);
+  console.log(prodId);
+
 };
 
 /* 

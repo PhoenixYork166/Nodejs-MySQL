@@ -68,4 +68,22 @@ module.exports = class Product {
   static fetchAll(cb) {
     getProductsFromFile(cb);
   }
+
+  /*
+  public static void method to accept a productId as 'id'
+  & accept a callback function as 'cb' to be executed 
+  after finding out the product 
+  */
+  static findById(id, cb) {
+    /* Using getProductsFromFile = () => {...} arrow function to retrieve all JSON.parse(products[{}]) */
+    getProductsFromFile(products => {
+      /* Sync code for Searching a specific product inside products[{}] then
+      pass into another arrow function 
+      if p.id matches the findById(id) => return product
+      */
+      const product = products.find(p => p.id === id);
+      /* Then execute the callback 'cb' for found 'product' */
+      cb(product);
+    });
+  }
 };
