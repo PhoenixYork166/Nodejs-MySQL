@@ -4,8 +4,9 @@ without instantiation */
 const Product = require('../models/product');
 
 /* 
-Export a callback function to be used by routes/shop.js for 
-rendering rootDir/views/shop/product-list.ejs
+Export a callback function to be used by 
+router.get('/products', shopController.getProducts); in routes/shop.js 
+for rendering rootDir/views/shop/product-list.ejs
 */
 exports.getProducts = (req, res, next) => {
   /* This allows us to hook into this Funnel 
@@ -43,7 +44,9 @@ exports.getProducts = (req, res, next) => {
 };
 
 /* 
-Export a callback function to be used by routes/shop.js for rendering rootDir/views/product-detail.ejs template via
+Export a callback function to be used by 
+router.get('/products/:productId', shopController.getProductDetail); in routes/shop.js 
+for rendering rootDir/views/product-detail.ejs template via
 http://localhost:3005/products/productUniqueId
 */
 exports.getProductDetail = (req, res, next) => {
@@ -75,8 +78,9 @@ exports.getProductDetail = (req, res, next) => {
 };
 
 /* 
-Export a callback function to be used by routes/shop.js for 
-rendering rootDir/views/shop/index.ejs
+Export a callback function to be used by 
+router.get('/', shopController.getIndex); in routes/shop.js 
+for rendering rootDir/views/shop/index.ejs
 */
 exports.getIndex = (req, res, next) => {
   console.log(`Hosting of views/shop/index.ejs\nthrough router.get is in progress\nfor http://localhost:3005/\n`);
@@ -111,8 +115,9 @@ exports.getIndex = (req, res, next) => {
 };
 
 /* 
-Export a callback function to be used by routes/shop.js for 
-rendering rootDir/views/shop/cart.ejs
+Export a callback function to be used by 
+router.get('/cart', shopController.getCart); in routes/shop.js 
+for rendering rootDir/views/shop/cart.ejs 
 */
 exports.getCart = (req, res, next) => {
   console.log(`Hosting of views/shop/cart.ejs through router.get is in progress\nfor http://localhost:3005/cart\n`);
@@ -128,14 +133,19 @@ exports.getCart = (req, res, next) => {
   })
 };
 
-/* Export a callback function to be used by routes/shop.js for accepting product attributes as req.body.fields via POST request */
+/* 
+Export a callback function to be used by 
+router.post('/cart', ); in routes/shop.js
+for Accepting product attributes as req.body.fields via POST request 
+*/
 exports.postCart = (req, res, next) => {
-  /* 
-  req.body.productId cuz we declared <input type="hidden" name="productId" value="<%= product.id %>"> in rootDir/views/shop/product-detail.ejs */
+  /* req.body.productId because rootDir/views/shop/product-detail.ejs <input type="hidden" name="productId" value="<%= product.id %>"> */
   const prodId = req.body.productId;
   console.log(`POST request handler for http://localhost:3005/cart\nreq.body.productId:`);
   console.log(prodId);
-
+  console.log(`\n`);
+  /* After POST prodId (req.body.productId) to Backend */
+  res.status(301).redirect('/cart');
 };
 
 /* 

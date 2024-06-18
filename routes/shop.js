@@ -24,6 +24,9 @@ router.get('/products/:productId', shopController.getProductDetail);
 /* Registering http://localhost:3005/cart Express Router route */
 router.get('/cart', shopController.getCart);
 
+/* Registering http://localhost:3005/cart POST request handler for accepting product attributes to Shopping Cart */
+router.post('/cart', shopController.postCart);
+
 /* Registering http://localhost:3005/orders Express Router route */
 router.get('/orders', shopController.getOrders);
 

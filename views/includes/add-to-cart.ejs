@@ -1,0 +1,5 @@
+<form action="/cart" method="POST">
+    <!-- NOT getting displayed on Frontend, yet this is still encoded in the request getting sent to our Node.js backend -->
+    <input type="hidden" name="productId" value="<%= product.id %>">
+    <button class="btn">Add to Cart</button>
+</form>

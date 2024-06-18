@@ -17,8 +17,11 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-// app.use(bodyParser.urlencoded({ extended: false }));
+// Express.js bodyParser is deprecated...
 app.use(express.urlencoded({ extended: false }));
+// For parsing application/json
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 /* As we changed the way we export objects in routes/admin.js */
