@@ -3,6 +3,9 @@ to access Product.fetchAll() public static void method
 without instantiation */
 const Product = require('../models/product');
 
+/* Temp Cart items database .json file */
+const Cart = require('../models/cart');
+
 /* 
 Export a callback function to be used by 
 router.get('/products', shopController.getProducts); in routes/shop.js 
@@ -140,10 +143,16 @@ for Accepting product attributes as req.body.fields via POST request
 */
 exports.postCart = (req, res, next) => {
   /* req.body.productId because rootDir/views/shop/product-detail.ejs <input type="hidden" name="productId" value="<%= product.id %>"> */
-  const prodId = req.body.productId;
   console.log(`POST request handler for http://localhost:3005/cart\nreq.body.productId:`);
-  console.log(prodId);
-  console.log(`\n`);
+  const prodId = req.body.productId;
+  /* Retrieve a product from products database */
+  Product.findById(prodId, (retrievedProduct) => {
+    /* rootDir/models/cart.js 
+    public static void method Cart.addProduct(id, productPrice) */
+    Cart.addProduct(prodId, retrievedProduct.price);
+  });
+  // console.log(prodId);
+  // console.log(`\n`);
   /* After POST prodId (req.body.productId) to Backend */
   res.status(301).redirect('/cart');
 };
