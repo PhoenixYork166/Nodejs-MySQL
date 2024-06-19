@@ -3,21 +3,18 @@ const Product = require('../models/product');
 /* 
 For GET request to http://localhost:3005/admin/add-product route
 Export a callback function to be used by routes/admin.js for 
-rendering rootDir/views/admin/add-product.ejs
+rendering rootDir/views/admin/edit-product.ejs
 */
 exports.getAddProduct = (req, res, next) => {
-    console.log(`Hosting views/admin/add-product.ejs through router.get\nfor http://localhost:3005/admin/add-product\n`);
+    console.log(`Hosting views/admin/edit-product.ejs through router.get\nfor http://localhost:3005/admin/add-product\n`);
     /*  
-      res.render('views/admin/add-product.ejs', data) defaults to rootDir/views
+      res.render('views/admin/edit-product.ejs', data) defaults to rootDir/views
       res.render('.ejs', data) will look up .ejs files
       & pass in templates
     */
-    res.render('admin/add-product', {
+    res.render('admin/edit-product', {
       path: req.url ? req.url : '/admin/add-product',
-      pageTitle: 'Add Product',
-      formsCSS: true,
-      productCSS: true,
-      activeAddProduct: true
+      pageTitle: 'Add Product'
     });
 };
   
@@ -58,6 +55,38 @@ exports.postAddProduct = (req, res, next) => {
     /* using Product.save() public method after instantiation of class Product {} to save a product */
     product.save();
     res.status(301).redirect('/');
+};
+
+/*
+For GET request to http://localhost:3005/admin/edit-product/:productId route
+Export a callback function to be used by routes/admin.js for
+rendering rootDir/views/admin/edit-product.ejs &
+also passing in product information
+*/
+exports.getEditProduct = (req, res, next) => {
+    console.log(`Hosting views/admin/edit-product.ejs through router.get\nfor http://localhost:3005/admin/edit-product/:productId?edit=true\n`);
+
+    /* Express built-in req.query.edit === 'true' */
+    const editMode = req.query.edit;
+    
+    if (!editMode) {
+        /* Redirect to '/' if 'editMode !== true'
+        e.g. undefined OR false */
+        return res.status(303).redirect(303, '/');
+    }
+    console.log(`editMode(req.query.edit) is:`);
+    console.log(editMode);
+    console.log(`\n`);
+    /*  
+      res.render('views/admin/edit-product.ejs', data) defaults to rootDir/views
+      res.render('.ejs', data) will look up .ejs files
+      & pass in templates
+    */
+    res.render('admin/edit-product', {
+      path: req.url ? req.url : '/admin/edit-product',
+      pageTitle: 'Edit Product',
+      editing: editMode
+    });
 };
 
 /* 

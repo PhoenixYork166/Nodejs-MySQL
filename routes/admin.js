@@ -25,6 +25,10 @@ router.get('/products', adminController.getProducts);
 => Express Router POST request handler */
 router.post('/add-product', adminController.postAddProduct);
 
+/* Registering http://localhost:3005/admin/edit-product
+=> Express Router GET request handler */
+router.get('/edit-product/:productId', adminController.getEditProduct);
+
 // Exporting this Express Router to global
 module.exports = router;
 

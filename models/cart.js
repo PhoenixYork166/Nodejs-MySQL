@@ -15,10 +15,7 @@ module.exports = class Cart {
         /* 1.Fetch the previous cart using fs.readFile() async
         Thus, we ONLY have 1 cart{} at all times */
         fs.readFile(p, (err, fileContent) => {
-            let cart = {
-                products: [],
-                totalPrice: 0
-            };
+            let cart = { products: [], totalPrice: 0 };
             /* If NO errors => Cart already exists */
             if (!err) {
                 cart = JSON.parse(fileContent);
