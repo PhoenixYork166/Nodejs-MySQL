@@ -90,7 +90,7 @@ exports.getEditProduct = (req, res, next) => {
             return res.status(303).redirect(303, '/');
         }
         res.render('admin/edit-product', {
-            path: req.url ? req.url : '/admin/edit-product',
+            path: req.url ? req.url : `/admin/edit-product/${prodId}?edit=true`,
             pageTitle: 'Edit Product',
             editing: editMode,
             product: retrievedProduct
