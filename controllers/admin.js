@@ -14,10 +14,11 @@ exports.getAddProduct = (req, res, next) => {
     */
     res.render('admin/edit-product', {
       path: req.url ? req.url : '/admin/add-product',
-      pageTitle: 'Add Product'
+      pageTitle: 'Add Product',
+      editing: false
     });
 };
-  
+
 /* 
 For POST request to http://localhost:3005/admin/add-product route 
 Export a callback function to be used by routes/admin.js for 
@@ -65,27 +66,35 @@ also passing in product information
 */
 exports.getEditProduct = (req, res, next) => {
     console.log(`Hosting views/admin/edit-product.ejs through router.get\nfor http://localhost:3005/admin/edit-product/:productId?edit=true\n`);
-
     /* Express built-in req.query.edit === 'true' */
     const editMode = req.query.edit;
-    
+    console.log(`editMode: ${editMode}\n`);
     if (!editMode) {
-        /* Redirect to '/' if 'editMode !== true'
-        e.g. undefined OR false */
+        console.log(`req.query.edit !== true\nRedirecting to /`);
+        // Redirect to '/', if 'editMode !== true' undefined||false 
         return res.status(303).redirect(303, '/');
     }
-    console.log(`editMode(req.query.edit) is:`);
-    console.log(editMode);
-    console.log(`\n`);
-    /*  
-      res.render('views/admin/edit-product.ejs', data) defaults to rootDir/views
-      res.render('.ejs', data) will look up .ejs files
-      & pass in templates
+    /* 
+    i. We'll need productId as a passed-in parameter for
+    public static void method 
+    Product.findById(id, cb) to accept prodId => 
+    Declare callback function to do backend logic
+
+    ii. Retrieving productId via req.body from incoming request 
+    We have a Dynamic segment rootDir/routes/admin.js 
+    router.get('/edit-product/:productId', adminController.getEditProduct);
     */
-    res.render('admin/edit-product', {
-      path: req.url ? req.url : '/admin/edit-product',
-      pageTitle: 'Edit Product',
-      editing: editMode
+    const prodId = req.params.productId;
+    Product.findById(prodId, retrievedProduct => {
+        if (!retrievedProduct) {
+            return res.status(303).redirect(303, '/');
+        }
+        res.render('admin/edit-product', {
+            path: req.url ? req.url : '/admin/edit-product',
+            pageTitle: 'Edit Product',
+            editing: editMode,
+            product: retrievedProduct
+          });
     });
 };
 
