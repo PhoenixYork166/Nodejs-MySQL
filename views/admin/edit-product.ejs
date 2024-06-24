@@ -24,6 +24,10 @@
                 <label for="description">Description</label>
                 <textarea name="description" id="description" rows="5" placeholder="Please Enter new Product Description here" required><%= (editing && product) ? product.description : '' %></textarea>
             </div>
+            <!-- If (editing) THEN insert Hidden <input> element to store product.id -->
+            <% if (editing) { %>
+                <input type="hidden" value="<%= product.id %>" name="productId"> 
+            <% } %>
             <button class="btn" type="submit">
                 <% if (editing) { %>
                     Edit Product

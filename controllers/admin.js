@@ -28,7 +28,7 @@ exports.postAddProduct = (req, res, next) => {
     console.log(`Hosting POST request handler for http://localhost:3005/admin/add-product Node API is in progress\n`);
 
     /* Best Practice to use ES6 Object Destructuring to destructure
-    parameters from Browser req.body.fields for easier implementation */
+    parameters from Browser req.body.params for easier implementation */
     const { title, imageUrl, price, description } = req.body;
     
     console.log(`Console logging all req.body.field:\n`);
@@ -51,7 +51,7 @@ exports.postAddProduct = (req, res, next) => {
     before storing into products[{},{}...]
     const product = new Product(title); 
     */
-    const product = new Product(title, imageUrl, description, price);
+    const product = new Product(null, title, imageUrl, description, price);
     
     /* using Product.save() public method after instantiation of class Product {} to save a product */
     product.save();
@@ -80,7 +80,8 @@ exports.getEditProduct = (req, res, next) => {
     Product.findById(id, cb) to accept prodId => 
     Declare callback function to do backend logic
 
-    ii. Retrieving productId via req.body from incoming request 
+    ii. Retrieving productId from Express route path
+    e.g. http://localhost:3005/admin/edit-product/:productId?edit=true 
     We have a Dynamic segment rootDir/routes/admin.js 
     router.get('/edit-product/:productId', adminController.getEditProduct);
     */
@@ -90,12 +91,37 @@ exports.getEditProduct = (req, res, next) => {
             return res.status(303).redirect(303, '/');
         }
         res.render('admin/edit-product', {
-            path: req.url ? req.url : `/admin/edit-product/${prodId}?edit=true`,
+            path: req.url ? req.url : `/admin/edit-products`,
             pageTitle: 'Edit Product',
             editing: editMode,
             product: retrievedProduct
-          });
+        });
     });
+};
+
+/*
+For POST request to http://localhost:3005/admin/edit-product route
+Export a callback function to be used by routes/admin.js for storing edited product attributes into rootDir/data/products.json
+*/
+exports.postEditProduct = (req, res, next) => {
+    /* 
+    i. Fetch information for the product
+    ii. Create a new product instance populated with that fetched info => call Product.save() public void method
+    */
+    // Extracting a product.id from req.body when editing a product
+    const prodId = req.body.productId;
+    const updatedTitle = req.body.title;
+    const updatedImageUrl = req.body.imageUrl;
+    const updatedDescription = req.body.description;
+    const updatedPrice = req.body.price;
+    
+    /* Create new product{} object by Instantiating class Product */
+    const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl, updatedDescription, updatedPrice);
+    console.log(`updatedProduct.id: ${prodId}\nupdatedProduct.title: ${updatedTitle}\nupdatedProduct.imageUrl: ${updatedImageUrl}\nupdatedProduct.description: ${updatedDescription}\nupdatedProduct.price: ${updatedPrice}\n`);
+    /* After class Instantiation => can invoke public void method updatedProduct.save() to over-write existing product {} */
+    updatedProduct.save();
+    /* After updatedProduct.save() => redirect to '/admin/product'*/
+    res.status(301).redirect('/admin/products');
 };
 
 /* 
