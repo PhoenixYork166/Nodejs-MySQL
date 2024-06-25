@@ -70,7 +70,7 @@ exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.edit;
     console.log(`editMode: ${editMode}\n`);
     if (!editMode) {
-        console.log(`req.query.edit !== true\nRedirecting to /`);
+        console.log(`req.query.edit !== true\nRedirecting to /\n`);
         // Redirect to '/', if 'editMode !== true' undefined||false 
         return res.status(303).redirect(303, '/');
     }
@@ -91,7 +91,7 @@ exports.getEditProduct = (req, res, next) => {
             return res.status(303).redirect(303, '/');
         }
         res.render('admin/edit-product', {
-            path: req.url ? req.url : `/admin/edit-products`,
+            path: req.url ? req.url : `/admin/edit-product`,
             pageTitle: 'Edit Product',
             editing: editMode,
             product: retrievedProduct
@@ -114,9 +114,10 @@ exports.postEditProduct = (req, res, next) => {
     const updatedImageUrl = req.body.imageUrl;
     const updatedDescription = req.body.description;
     const updatedPrice = req.body.price;
-    
+
     /* Create new product{} object by Instantiating class Product */
     const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl, updatedDescription, updatedPrice);
+
     console.log(`updatedProduct.id: ${prodId}\nupdatedProduct.title: ${updatedTitle}\nupdatedProduct.imageUrl: ${updatedImageUrl}\nupdatedProduct.description: ${updatedDescription}\nupdatedProduct.price: ${updatedPrice}\n`);
     /* After class Instantiation => can invoke public void method updatedProduct.save() to over-write existing product {} */
     updatedProduct.save();
