@@ -119,12 +119,11 @@ module.exports = class Cart {
             console.log(updatedCart);
             console.log(`\n`);
 
-            fs.writeFile(p, JSON.stringify(updatedCart), (err) => {
-                if (err) {
-                    console.log(`Error writing updatedCart\n{"products":[{"id":"productId","qty":productQty},{"id":"productId","qty":productQty}],"totalPrice":updatedCart.totalPrice}\n`);
-                    console.log(err);
-                    console.log(`\n`);
-                }
+            fs.writeFile(p, JSON.stringify(updatedCart), (err) => {  
+                console.log(`Error writing updatedCart\n{"products":[{"id":"productId","qty":productQty},{"id":"productId","qty":productQty}],"totalPrice":updatedCart.totalPrice}\n`);
+                console.log(err);
+                console.log(`\n`);
+                
             });
         });
     }

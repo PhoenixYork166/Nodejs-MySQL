@@ -178,6 +178,25 @@ exports.postCart = (req, res, next) => {
   res.status(301).redirect('/cart');
 };
 
+/*
+Export a callback function to be used by routes/shop.js for deleting
+a specific product inside Cart */
+exports.postCartDeleteProduct = (req, res, next) => {
+  /* Need id & productPrice as pass-in params 
+  when invoking Cart.deleteProduct(id, productPrice) */
+  const prodId = req.body.productId;
+  /* Before finding out the specific product's price
+  Let's first find out the exact product using prodId by
+  Invoking Product.findById(id, cb) 
+  using this cb callback function to extend logic for finding out
+  product.price */
+  Product.findById(prodId, (retrievedProduct) => {
+    Cart.deleteProduct(prodId, retrievedProduct.price);
+    /* After deleting the specific product inside cart */
+    res.status(301).redirect('/cart');
+  });
+};
+
 /* 
 Export a callback function to be used by routes/shop.js for 
 rendering rootDir/views/shop/orders.ejs
