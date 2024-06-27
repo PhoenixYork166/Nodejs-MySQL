@@ -116,7 +116,13 @@ exports.postEditProduct = (req, res, next) => {
     const updatedPrice = req.body.price;
 
     /* Create new product{} object by Instantiating class Product */
-    const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl, updatedDescription, updatedPrice);
+    const updatedProduct = new Product(
+        prodId, 
+        updatedTitle, 
+        updatedImageUrl, 
+        updatedDescription, 
+        updatedPrice
+    );
 
     console.log(`updatedProduct.id: ${prodId}\nupdatedProduct.title: ${updatedTitle}\nupdatedProduct.imageUrl: ${updatedImageUrl}\nupdatedProduct.description: ${updatedDescription}\nupdatedProduct.price: ${updatedPrice}\n`);
     /* After class Instantiation => can invoke public void method updatedProduct.save() to over-write existing product {} */
@@ -161,4 +167,18 @@ exports.getProducts = (req, res, next) => {
         */
         });
     });
+};
+
+/*
+For POST request to http://localhost:3005/admin/delete-product route
+Export a callback function to be used by routes/admin.js for
+deleting a specific product from rootDir/data/products.json
+*/
+exports.postDeleteProduct = (req, res, next) => {
+    const prodId = req.body.productId;
+    /* publicly invoking Product.deleteById(id) => 
+    pass-in prodId received from req.body */
+    Product.deleteById(prodId);
+    /* After Product.deleteById(prodId) is complete */
+    res.status(301).redirect('/admin/products');
 };

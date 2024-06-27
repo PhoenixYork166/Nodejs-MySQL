@@ -12,7 +12,7 @@ const p = path.join(
 
 module.exports = class Cart {
     static addProduct(id, productPrice) {
-        /* 1.Fetch the previous cart using fs.readFile() async
+        /* 1.Fetch the previous cart from rootDir/data/cart.json using fs.readFile() async
         Thus, we ONLY have 1 cart{} at all times */
         fs.readFile(p, (err, fileContent) => {
             let cart = { products: [], totalPrice: 0 };
@@ -81,6 +81,66 @@ module.exports = class Cart {
                 console.log(err);
                 console.log(`\n`);
             });
+        });
+    }
+
+    static deleteProduct(id, productPrice) {
+        /* i.Fetch the previous cart from rootDir/data/cart.json using fs.readFile() async
+        Thus, we ONLY have 1 cart{} at all times */
+        fs.readFile(p, (err, fileContent) => {
+            /* ii. When a cart{"products":[{"id":"productId","qty":productQty}],"totalPrice":cart.totalPrice} cannot be found */
+            if (err) {
+                // terminate this Cart.deleteProduct() early
+                return;
+            }
+            const updatedCart = { ...JSON.parse(fileContent) };
+            /* Find out specific product to be removed from cart */
+            const product = updatedCart.products.find(retrievedProduct => retrievedProduct.id === id);
+
+            /* iii. if the specific product 'product' cannot be found using passed-in productId */
+            if (!product) {
+                console.log(`Passed-in ID: ${id} for this product is NOT found in the cart\n`);
+                // Terminate this Cart.deleteProduct() early
+                return; 
+            } else {
+                console.log(`Cart.deleteProduct()\nretrievedProduct{}:`);
+                console.log(product);
+                console.log(`\n`);
+            }
+            
+            const productQty = product.qty;
+            /* Remove specific product using .filter() */
+            updatedCart.products = updatedCart.products.filter(eachProduct => eachProduct.id !== id);
+
+            /* reduce updatedCart.totalPrice by n * specificProductPrice */
+            updatedCart.totalPrice -= productPrice * productQty;
+
+            console.log(`Logging updatedCart[{}] before writing into rootDir/data/cart.json:`);
+            console.log(updatedCart);
+            console.log(`\n`);
+
+            fs.writeFile(p, JSON.stringify(updatedCart), (err) => {
+                if (err) {
+                    console.log(`Error writing updatedCart\n{"products":[{"id":"productId","qty":productQty},{"id":"productId","qty":productQty}],"totalPrice":updatedCart.totalPrice}\n`);
+                    console.log(err);
+                    console.log(`\n`);
+                }
+            });
+        });
+    }
+
+    /* public static void method to accept a callback function which can be called once we get all products */
+    static getCart(cb) {
+        /* Retrieve all products inside rootDir/data/cart.json 
+        return all products */
+        fs.readFile(p, (err, fileContent) => {
+            const cart = JSON.parse(fileContent);
+            /* if err = no cart yet */
+            if (err) {
+                cb(null); // cb(null) to return nothing
+            } else {
+                cb(cart); // using cb to return cart
+            }
         });
     }
 }

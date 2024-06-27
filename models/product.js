@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const rootDir = require('../util/path');
+const Cart = require('./cart');
 
 /* Define a path 'p' that points to rootDir/data/products.json file 
 Global 'p' can be accessed by any Product.method() */
@@ -41,7 +42,7 @@ module.exports = class Product {
     this.price = price;
   }
 
-  /* Default public void Method to save current product instance either by updating an existing entry or adding a new entry if it does NOT already exist */
+  /* public void Method to save current product instance either by updating an existing entry or adding a new entry if it does NOT already exist */
   save() {
     getProductsFromFile(products => {
       /* If this.id (product.id) already exists
@@ -67,9 +68,34 @@ module.exports = class Product {
         this.id = Math.random().toString();
         products.push(this);
         fs.writeFile(p, JSON.stringify(products), err => {
-          console.log(`Error occurred while JSON.stringifying products[{}] before fs.writeFile(path, dataContents)\n${err}`);
+          console.log(`Error occurred while invoking Product.save() public void method\nwhile JSON.stringifying products[{}] before fs.writeFile(path, dataContents)\n${err}`);
         });
       }
+    });
+  }
+
+  /* public static void Method that accepts a productId
+  to delete a specific product instance by productId from rootDir/data/products.json */
+  static deleteById(id) {
+    getProductsFromFile(products => {
+      /* i. Extract the specific product{} from products[{}] */
+      const product = products.find(retrievedProduct => retrievedProduct.id === id);
+
+      /* .filter()
+      ii. takes on anonymous arrow func () => {...} 
+      iii. return a new array that matches criteria 
+      iv. Only if productId we're NOT looking for => keep items */
+      const updatedProducts = products.filter(eachProduct => eachProduct.id !== id);
+      
+      /* v. saving updatedProducts that filtered out a specific product{} using productId back to rootDir/data/products.json */
+      fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+        if (!err) {
+          /* vi. Also remove the specific product from cart */
+          Cart.deleteProduct(id, product.price);
+        } else {
+          console.log(`Error occurred while invoking Product.deleteById() public static void method\nwhile JSON.stringify products[{}] before fs.writeFile(path, dataContents)\n${err}`);
+        }
+      });
     });
   }
 

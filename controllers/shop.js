@@ -14,7 +14,7 @@ for rendering rootDir/views/shop/product-list.ejs
 exports.getProducts = (req, res, next) => {
   /* This allows us to hook into this Funnel 
   through which the HTTP request to send */
-  console.log(`Hosting views/shop/product-list.ejs\nthrough router.get is in progress\nfor http://localhost:3005/products\n`);
+  console.log(`Hosting of views/shop/product-list.ejs\nthrough router.get is in progress\nfor http://localhost:3005/products\n`);
 
   /* 
   using 'public static void method' Product.fetchAll(cb): void
@@ -124,16 +124,37 @@ for rendering rootDir/views/shop/cart.ejs
 */
 exports.getCart = (req, res, next) => {
   console.log(`Hosting of views/shop/cart.ejs through router.get is in progress\nfor http://localhost:3005/cart\n`);
-  /*
-    Main Node rootDir/app.js implements EJS Templating Engine
-    app.set('view engine', 'ejs');
-    within this module => res.render() EJS templates
-    rendering rootDir/views/shop/cart.ejs template
-  */
-  res.render('shop/cart', {
-    path: req.url ? req.url : '/cart',
-    pageTitle: 'Your Cart',
-  })
+  
+  /* i. Invoke Cart.getCart(cb) that accepts a pass-in callback function, we can then declare cart() => {} arrow function here */
+  Cart.getCart((cart) => {
+    /* ii. Needing more product info too */
+    Product.fetchAll((fetchedProducts) => {
+      /* iii. Prepare to store each matched product{} into empty cartProducts[]
+      Thus, after cartProducts.push(eachProduct) below 
+      We'll have a cartProducts[{}] for rendering on Frontend */
+      const cartProducts = [];
+      /* iv. for loop of each product */
+      for (eachProduct of fetchedProducts) {
+        /* v. Matching eachProduct.id */
+        const cartProductData = cart.products.find(retrievedProduct => retrievedProduct.id === eachProduct.id);
+
+        /* vi. Check whether this product is in cart */
+        if (cartProductData) {
+          /* vii. push for-looped single product{} into cartProducts[] above */
+          cartProducts.push({
+            productData: eachProduct, 
+            qty: cartProductData.qty
+          });
+        }
+      }
+      /* viii. Sending cartProducts[{},{}] as a key-pair to our view */
+      res.render('shop/cart', {
+        path: req.url ? req.url : '/cart',
+        pageTitle: 'Your Cart',
+        products: cartProducts
+      })
+    });
+  });
 };
 
 /* 
@@ -143,7 +164,7 @@ for Accepting product attributes as req.body.fields via POST request
 */
 exports.postCart = (req, res, next) => {
   /* req.body.productId because rootDir/views/shop/product-detail.ejs <input type="hidden" name="productId" value="<%= product.id %>"> */
-  console.log(`POST request handler for http://localhost:3005/cart\nreq.body.productId:`);
+  console.log(`Hosting of POST request handler for http://localhost:3005/cart\nreq.body.productId:`);
   const prodId = req.body.productId;
   /* Retrieve a product from products database */
   Product.findById(prodId, (retrievedProduct) => {
