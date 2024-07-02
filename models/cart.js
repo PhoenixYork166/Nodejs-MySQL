@@ -20,8 +20,8 @@ module.exports = class Cart {
             if (!err) {
                 cart = JSON.parse(fileContent);
             }
-            /* 2.Analyze cart => Find a product{} by 
-            checking the passed-in 'id' against productId */
+            /* 2.Analyze cart => match passed in id against each product in cart.products[]
+            Extract the matched product index for mapping */
             const existingProductIndex = cart.products.findIndex(
                 eachProduct => eachProduct.id === id
             );
@@ -37,10 +37,9 @@ module.exports = class Cart {
             let updatedProduct;
 
             /* If we have an existing product already =>
-            spread operator{...} to Shallow Copy */
+            Shallow Copy to another object using 
+            spread operator {...} */
             if (existingProduct) {
-                /* updatedProduct.qty exists cuz 
-                existingProduct.qty exists already */
                 updatedProduct = { ...existingProduct };
                 /* Increase updatedProduct.qty by 1 */
                 updatedProduct.qty++;
