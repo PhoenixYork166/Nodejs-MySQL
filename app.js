@@ -14,21 +14,6 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-const selectAllProducts = 'SELECT * FROM products';
-/* To execute a SQL to connection pool as a Promise */
-db.execute(selectAllProducts)
-.then((result) => {
-    console.log(`Result of performing database operation below:`);
-    console.log(result);
-    console.log(`\n`);
-})
-.catch((err) => {
-    if (err) {
-        console.log(`Error occurred when performing database operation below:\n${selectAllProducts}`);
-        console.log(`Error:\n${err}`);
-        console.log(`\n`);
-    }
-});
 
 // Express.js bodyParser is deprecated...
 app.use(express.urlencoded({ extended: false }));
