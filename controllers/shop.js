@@ -1,5 +1,5 @@
 /* Import class Product from rootDir/models/product.js
-to access Product.fetchAll() public static void method
+to access Product.fetchAll() public static method
 without instantiation */
 const Product = require('../models/product');
 
@@ -16,34 +16,21 @@ exports.getProducts = (req, res, next) => {
   through which the HTTP request to send */
   console.log(`Hosting of views/shop/product-list.ejs\nthrough router.get is in progress\nfor http://localhost:3005/products\n`);
 
-  /* 
-  using 'public static void method' Product.fetchAll(cb): void
-  to retrieve products[{}] stored in data/products.json file 
-  */
-  Product.fetchAll(products => {
-    /* Calling back products stored in ./routes/shop.js
-    router.get('/products', shopController.getProducts); */
-    console.log(`routes/shop.js\nshopController.getProducts:`);
-    console.log(products);
-    console.log(`\n`);
-
-    /*
-    Main Node rootDir/app.js implements EJS Templating Engine
+  /* using 'public static method' Product.fetchAll(): Promise
+  to retrieve products[{}] stored in MySQL */
+  Product.fetchAll()
+  .then(([rows, fieldData]) => {
+    /* Main Node rootDir/app.js implements EJS Templating Engine
     app.set('view engine', 'ejs');
     within this module => res.render() EJS templates
-    rendering rootDir/views/shop/product-list.ejs template
-    */
+    rendering rootDir/views/shop/product-list.ejs template */
     res.render('shop/product-list', {
       path: req.url ? req.url : '/products',
       pageTitle: 'All Products',
-      prods: products,
-      /* These attributes are ONLY necessary when using Handlebars
-      hasProducts: products.length > 0,
-      activeShop: true,
-      productCSS: true
-      */
+      prods: rows,
     });
-  });
+  })
+  .catch((err) => console.log(`Error Product.fetchAll(): Promise:\n${err}\n`));
 };
 
 /* 
@@ -87,34 +74,22 @@ for rendering rootDir/views/shop/index.ejs
 */
 exports.getIndex = (req, res, next) => {
   console.log(`Hosting of views/shop/index.ejs\nthrough router.get is in progress\nfor http://localhost:3005/\n`);
-  /* 
-  using 'public static void method' Product.fetchAll(cb): void
-  to retrieve products[{}] stored in data/products.json file 
-  */
-  Product.fetchAll(products => {
-    /* Calling back products stored in ./routes/shop.js
-    router.get('/', shopController.getIndex); */
-    console.log(`routes/shop.js\nshopController.getIndex:`);
-    console.log(products);
-    console.log(`\n`);
 
-    /*
-    Main Node rootDir/app.js implements EJS Templating Engine
+  /* using 'public static method' Product.fetchAll(): Promise
+  to retrieve products[{}] stored in MySQL */
+  Product.fetchAll()
+  .then(([rows, fieldData]) => {
+    /* Main Node rootDir/app.js implements EJS Templating Engine
     app.set('view engine', 'ejs');
     within this module => res.render() EJS templates
-    rendering rootDir/views/shop/index.ejs template
-    */
+    rendering rootDir/views/shop/index.ejs template */
     res.render('shop/index', {
       path: req.url ? req.url : '/',
       pageTitle: 'Shop',
-      prods: products,
-      /* These attributes are ONLY necessary when using Handlebars
-      hasProducts: products.length > 0,
-      activeShop: true,
-      productCSS: true
-      */
+      prods: rows,
     });
-  });
+  })
+  .catch((err) => console.log(`Error Product.fetchAll(): Promise:\n${err}\n`));
 };
 
 /* 

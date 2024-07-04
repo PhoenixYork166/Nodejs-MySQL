@@ -1,123 +1,42 @@
-const fs = require('fs');
-const path = require('path');
-const rootDir = require('../util/path');
+const db = require('../util/database');
 const Cart = require('./cart');
-
-/* Define a path 'p' that points to rootDir/data/products.json file 
-Global 'p' can be accessed by any Product.method() */
-const p = path.join(
-  rootDir,
-  'data',
-  'products.json'
-);
-
-/* This is a Global Scope Helper function to be called
-inside class Product.method() for reading file contents
-from rootDir/data/products.json file
-*/
-const getProductsFromFile = (cb) => {
-  fs.readFile(p, (err, fileContent) => {
-    if (err) {
-      /* if there's an error reading the file =>
-      invoke the callback with an empty array[] */
-      cb([]);
-    }
-    else {
-      // Parse JSON content of file & pass the result to cb callback
-      cb(JSON.parse(fileContent));
-    }
-  });
-};
 
 /* Defining the Interface for each new product product{}
 using an ES6 a Class that specifies these class objectKeys 
 e.g. productTitle, productImageUrl, productDescription, productPrice
 */
 module.exports = class Product {
-  constructor(id, title, imageUrl, description, price) {
+  constructor(id, title, price, description, imageUrl) {
     this.id = id;
     this.title = title;
-    this.imageUrl = imageUrl;
-    this.description = description;
     this.price = price;
+    this.description = description;
+    this.imageUrl = imageUrl;
   }
 
-  /* public void Method to save current product instance either by updating an existing entry or adding a new entry if it does NOT already exist */
+  /* To create a product
+  public void Method to save current product instance either by updating an existing entry or adding a new entry if it does NOT already exist */
   save() {
-    getProductsFromFile(products => {
-      /* If this.id (product.id) already exists
-      public void method save() should NOT randomly create this.id public void method save() should update existing this.id 
-      */
-      if (this.id) {
-        /* Find the Index of the product in products[{}] that matches the current product.id by
-        Declaring existingProductIndex using .findIndex() to match current product.id (this.id) against each stored product{} inside products[{}] fetched from rootDir/data/products.json */
-        const existingProductIndex = products.findIndex(retrievedProduct => retrievedProduct.id === this.id);
-        
-        /* Use Spread Operator [...] to copy products[{}] */
-        const updatedProducts = [...products];
-        /* Replace existing product{} using existingProductIndex with this (newly created product{}) */
-        updatedProducts[existingProductIndex] = this;
-
-        /* After replace old product{} inside updatedProducts[{}]=> 
-        write updatedProducts[{}] into rootDir/data/products.json */
-        fs.writeFile(p, JSON.stringify(updatedProducts), err => {
-          console.log(`Error occurred while JSON.stringifying updatedProducts[{}] before fs.writeFile(path, dataContents)\n${err}`);
-        });
-      } else {
-        /* If NO existing this.id => assign a random product.id */
-        this.id = Math.random().toString();
-        products.push(this);
-        fs.writeFile(p, JSON.stringify(products), err => {
-          console.log(`Error occurred while invoking Product.save() public void method\nwhile JSON.stringifying products[{}] before fs.writeFile(path, dataContents)\n${err}`);
-        });
-      }
-    });
+    
   }
 
   /* public static void Method that accepts a productId
   to delete a specific product instance by productId from rootDir/data/products.json */
   static deleteById(id) {
-    getProductsFromFile(products => {
-      /* i. Extract the specific product{} from products[{}] */
-      const product = products.find(retrievedProduct => retrievedProduct.id === id);
-
-      /* .filter()
-      ii. takes on anonymous arrow func () => {...} 
-      iii. return a new array that matches criteria 
-      iv. Only if productId we're NOT looking for => keep items */
-      const updatedProducts = products.filter(eachProduct => eachProduct.id !== id);
-      
-      /* v. saving updatedProducts that filtered out a specific product{} using productId back to rootDir/data/products.json */
-      fs.writeFile(p, JSON.stringify(updatedProducts), err => {
-        if (!err) {
-          /* vi. Also remove the specific product from cart */
-          Cart.deleteProduct(id, product.price);
-        } else {
-          console.log(`Error occurred while invoking Product.deleteById() public static void method\nwhile JSON.stringify products[{}] before fs.writeFile(path, dataContents)\n${err}`);
-        }
-      });
-    });
+    
   }
 
-  /*
-  public static void method to allow invoking Class.method() without instantiation e.g. 'extends' OR 'new Product'
-  */
-  static fetchAll(cb) {
-    getProductsFromFile(cb);
+  /* Product.fetchAll() to connect to a database */
+  static fetchAll() {
+    const selectAllProducts = 'SELECT * FROM products';
+
+    /* MySQL connector as a Promise */
+    /* Instead of .then().catch(), our Global Scope receives SQL query result object by 'return' */
+    return db.execute(selectAllProducts);
   }
 
-  /*
-  public static void method to find a product by its id & invoke the callback (cb) with the found product or undefined if NOT found
-  */
-  static findById(id, cb) {
-    /* Using getProductsFromFile = () => {...} arrow function to retrieve all JSON.parse(products[{}]) */
-    getProductsFromFile(products => {
-      /* Sync code for Searching a specific product inside products[{}] then pass into another arrow function 
-      if p.id matches the findById(id) => return product
-      */
-      const product = products.find(p => p.id === id);
-      /* Then execute the callback 'cb' for found 'product' */
-      cb(product);
-    });
+  /* public static void method to find a product by its id */
+  static findById(id) {
+    
   }
 };
