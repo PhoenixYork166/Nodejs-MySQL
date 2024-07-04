@@ -1,4 +1,4 @@
-<h2>Start date: 28-Jun-2024</h2>
+<h2>Start date: 2-Jul-2024</h2>
 <br>
 
 <br>
