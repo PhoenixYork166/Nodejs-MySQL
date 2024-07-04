@@ -14,7 +14,6 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-
 // Express.js bodyParser is deprecated...
 app.use(express.urlencoded({ extended: false }));
 // For parsing application/json
