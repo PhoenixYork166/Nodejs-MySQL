@@ -29,33 +29,31 @@ exports.postAddProduct = (req, res, next) => {
 
     /* Best Practice to use ES6 Object Destructuring to destructure
     parameters from Browser req.body.params for easier implementation */
-    const { title, imageUrl, price, description } = req.body;
+    const { title, price, description, imageUrl } = req.body;
     
-    console.log(`Console logging all req.body.field:\n`);
-    console.log(`req.body.title:\n${title}\n`);
-    console.log(`req.body.title:\n${imageUrl}\n`);
-    console.log(`req.body.title:\n${price}\n`);
-    console.log(`req.body.title:\n${description}\n`);
+    console.log(`Console logging all req.body.field:`);
+    console.log(`req.body.title:\n${title}`);
+    console.log(`req.body.price:\n${price}`);
+    console.log(`req.body.description:\n${description}`);
+    console.log(`req.body.imageUrl:\n${imageUrl}`);
+    console.log(`\n`);
+
+    console.log(`Just received a POST request from\nhttp://localhost:3005/admin/add-product\n{
+        "title": ${title},
+        "price": ${price},
+        "description": ${description},
+        "imageUrl": ${imageUrl}
+    }`);
+    console.log(`\n`);
   
-    /* Referring to our model (product interface) inside
-    rootDir/models/product.js */
-    /* class Product {
-        constructor(title, imageUrl, description, price) {
-            this.title = title;
-            this.imageUrl = imageUrl;
-            this.description = description;
-            this.price = price;
-        }
-    */
-    /* Create a new product{} by instantiating class Product {}
-    before storing into products[{},{}...]
-    const product = new Product(title); 
-    */
-    const product = new Product(null, title, imageUrl, description, price);
+    const product = new Product(null, title, price, description, imageUrl);
     
     /* using Product.save() public method after instantiation of class Product {} to save a product */
-    product.save();
-    res.status(301).redirect('/');
+    product.save()
+    .then(() => {
+        res.status(301).redirect('/');
+    })
+    .catch(err => console.log(`Err when product.save(): Promise<[QueryResult, FieldPacket[]]>:\n${err}\n`));
 };
 
 /*

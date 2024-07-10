@@ -14,10 +14,19 @@ module.exports = class Product {
     this.imageUrl = imageUrl;
   }
 
-  /* To create a product
-  public void Method to save current product instance either by updating an existing entry or adding a new entry if it does NOT already exist */
+  /* To react out to MySQL database => 
+  Save data there 
+  public method() = instance method() => Use Syntax
+  [this.title, this.price, this.description, this.imageUrl]
+  */
   save() {
-    
+    // Return SQL query result as a Promise
+    /* To avoid SQL Injection attack pattern
+    db.execute(SQL, [param1, param2, param3, param4]); */
+    return db.execute(
+      'INSERT INTO products (title, price, description, imageUrl) VALUES (?, ?, ?, ?)', 
+      [this.title, this.price, this.description, this.imageUrl]
+    );
   }
 
   /* public static void Method that accepts a productId
@@ -35,8 +44,11 @@ module.exports = class Product {
     return db.execute(selectAllProducts);
   }
 
-  /* public static void method to find a product by its id */
+  /* public static method that finds a product by its id & returns a Promise => Uses Syntax [id] */
   static findById(id) {
-    
+    return db.execute(
+      'SELECT * FROM products WHERE products.id = ?', 
+      [id]
+    );
   }
 };

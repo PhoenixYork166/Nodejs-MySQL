@@ -17,7 +17,8 @@ exports.getProducts = (req, res, next) => {
   console.log(`Hosting of views/shop/product-list.ejs\nthrough router.get is in progress\nfor http://localhost:3005/products\n`);
 
   /* using 'public static method' Product.fetchAll(): Promise
-  to retrieve products[{}] stored in MySQL */
+  to retrieve products[{}] stored in MySQL 
+  Product.fetchAll(): Promise is declared inside rootDir/models/product.js */
   Product.fetchAll()
   .then(([rows, fieldData]) => {
     /* Main Node rootDir/app.js implements EJS Templating Engine
@@ -49,22 +50,42 @@ exports.getProductDetail = (req, res, next) => {
   console.log(productId);
   console.log(`\n`);
   
-  /* Instead of just logging productId, wanna also log product{}
-  Using public static void method Product.findById() without instantiation 
-  Product.findById(productId, callbackToGetProduct)
-  */
+  /* Refactored to using Promise-based pattern as we changed
+  Product.findById(id): Promise<[QueryResult, FieldPacket[]]> */
+  Product.findById(productId)
+  .then(([rows, fieldData]) => {
+      console.log(`Product.findById(productId)\n.then(([rows, fieldData]) => {...}\nrows = an array[]\nrows[0]:`);
+      console.log(rows[0]);
+      console.log(`\n`);
+
+      /* Rendering rootDir/views/shop/product-detail.ejs view */
+      res.render('shop/product-detail', {
+        path: req.url ? req.url : '/products',
+        product: rows[0],
+        pageTitle: rows[0].title
+      })
+    }
+  )
+  .catch(err => console.log(`Err Product.findById(id): Promise<[QueryResult, FieldPacket[]]>:\n${err}\n`));
+
+  /*
+  // Instead of just logging productId, wanna also log product{}
+  // Using public static void method Product.findById() without instantiation 
+  // Product.findById(productId, callbackToGetProduct)
+  
   Product.findById(productId, product => {
     console.log(`product found using public static void method without class instantiation\nProduct.findById(productId, product => {...})`);
     console.log(product);
     console.log(`\n`);
-    /* Rendering rootDir/views/shop/product-detail.ejs view */
+    // Rendering rootDir/views/shop/product-detail.ejs view
     res.render('shop/product-detail', {
-      /* product = the product retrieved via public static void method Product.findById() defined in rootDir/models/product.js */
+      // product = the product retrieved via public static void method Product.findById() defined in rootDir/models/product.js 
       path: req.url ? req.url : '/products',
       product: product,
       pageTitle: product.title
     });
   });
+  */
 };
 
 /* 
