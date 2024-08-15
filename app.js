@@ -8,8 +8,11 @@ const db = require('./util/database');
 const app = express();
 console.log(`root directory is:\n${rootDir}`);
 
-/* Using EJS templating engine */
+/* Configuring Express.js to use EJS as its templating engine */
 app.set('view engine', 'ejs');
+/* This tells Express the path to find template files
+1st 'views' = rootDir/views folder 
+2nd 'views' = name of directory */
 app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');

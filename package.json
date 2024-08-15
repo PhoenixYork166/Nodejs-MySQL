@@ -18,6 +18,7 @@
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "mysql2": "^3.10.2",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "sequelize": "^6.37.3"
   }
 }

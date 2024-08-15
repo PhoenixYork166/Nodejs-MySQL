@@ -20,7 +20,7 @@ module.exports = class Product {
   [this.title, this.price, this.description, this.imageUrl]
   */
   save() {
-    // Return SQL query result as a Promise
+    // Return SQL query result to global scope as a Promise
     /* To avoid SQL Injection attack pattern
     db.execute(SQL, [param1, param2, param3, param4]); */
     return db.execute(
