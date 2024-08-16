@@ -6,7 +6,7 @@
 **Start practicing with this Node.js app**
 
 ```bash
-git clone https://github.com/berlinlee-phoenix/Nodejs-MySQL.git
+git clone https://github.com/PhoenixYork166/Nodejs-MySQL.git
 cd Nodejs-MySQL
 ```
 
