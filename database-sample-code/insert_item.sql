@@ -1,0 +1,2 @@
+INSERT INTO `node-complete`.products (id, title, price, description, imageUrl)
+VALUE (2, '拉芙塔', 28, '請購問拉芙塔', 'https://68.media.tumblr.com/53b6810ea322988de36b30af75f59946/tumblr_okph8sREXn1tlj9p2o3_1280.jpg');
