@@ -211,18 +211,18 @@
     </mxGraphModel>
   </diagram>
   <diagram id="mNuz065NFMRa5ex3-xQI" name="Nodejs-Processes">
-    <mxGraphModel dx="1082" dy="1137" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1537" dy="1628" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="glDobKeK0mtQLZATCXBL-4" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f0eded;" vertex="1" parent="1">
-          <mxGeometry x="-132" y="-168" width="677" height="677" as="geometry" />
+          <mxGeometry x="-132" y="-168" width="1062" height="1062" as="geometry" />
         </mxCell>
         <mxCell id="glDobKeK0mtQLZATCXBL-6" value="Node.js Process (instance of a program)" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="156.5" y="-164" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="glDobKeK0mtQLZATCXBL-7" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d3d3d3;" vertex="1" parent="1">
-          <mxGeometry x="-90" y="-121" width="593" height="593" as="geometry" />
+          <mxGeometry x="-104" y="-124" width="619" height="619" as="geometry" />
         </mxCell>
         <mxCell id="glDobKeK0mtQLZATCXBL-8" value="Initialize program" style="whiteSpace=wrap;align=center;color=#ffffff;verticalAlign=middle;fontStyle=1;strokeWidth=3;color:#ffffff;fillColor=#52a814" vertex="1" parent="1">
           <mxGeometry x="63.25" y="-61" width="286.5" height="60" as="geometry" />
@@ -280,6 +280,57 @@
               <mxPoint x="246.5" y="231" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-1" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d3d3d3;" vertex="1" parent="1">
+          <mxGeometry x="545" y="332" width="163" height="163" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-2" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d3d3d3;" vertex="1" parent="1">
+          <mxGeometry x="747" y="332" width="163" height="163" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-3" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d3d3d3;" vertex="1" parent="1">
+          <mxGeometry x="545" y="147" width="163" height="163" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-4" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d3d3d3;" vertex="1" parent="1">
+          <mxGeometry x="747" y="147" width="163" height="163" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-5" value="Thread #1" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="576.5" y="208.5" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-7" value="Thread #2" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="778.5" y="208.5" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-8" value="Thread #3" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="576.5" y="393.5" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-9" value="Thread #4" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="778.5" y="393.5" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="IYwxciIzfDEhzeWNU6Ws-10" value="THREAD POOL" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="687" y="64" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="glMYOgP-KomJl83xytz5-2" value="" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="349.75" y="406.5" as="sourcePoint" />
+            <mxPoint x="545" y="271.25" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="glMYOgP-KomJl83xytz5-3" value="OFFLOAD" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;rotation=-35;" vertex="1" parent="1">
+          <mxGeometry x="396" y="305" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="glMYOgP-KomJl83xytz5-5" value="- Additional 4 threads (or more)&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="676" y="509" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="glMYOgP-KomJl83xytz5-6" value="- Offload work from the Event Loop" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="675" y="549" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="glMYOgP-KomJl83xytz5-7" value="- Handle heavy (&quot;expensive&quot; tasks.&amp;nbsp;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="676" y="589" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="glMYOgP-KomJl83xytz5-8" value="-&amp;gt; File system APIs&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="675" y="636" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="glMYOgP-KomJl83xytz5-9" value="-&amp;gt; Cryptography&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="675" y="679" width="100" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
