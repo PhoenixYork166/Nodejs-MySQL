@@ -218,7 +218,7 @@
         <mxCell id="glDobKeK0mtQLZATCXBL-4" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#f0eded;" vertex="1" parent="1">
           <mxGeometry x="-132" y="-168" width="677" height="677" as="geometry" />
         </mxCell>
-        <mxCell id="glDobKeK0mtQLZATCXBL-6" value="Node.js Process" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxCell id="glDobKeK0mtQLZATCXBL-6" value="Node.js Process (instance of a program)" style="text;strokeColor=none;fillColor=none;html=1;fontSize=24;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
           <mxGeometry x="156.5" y="-164" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="glDobKeK0mtQLZATCXBL-7" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d3d3d3;" vertex="1" parent="1">
